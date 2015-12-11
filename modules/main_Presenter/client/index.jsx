@@ -8,13 +8,6 @@ import Preview from './components/Preview'
 import * as addPreviews from './components/PresenterActions'
 
 class Presenter extends Component {
-  // This doesn't work anymore....................
-  // getInitialState() {
-  //   console.log('is this working??????????');
-
-  //   // set previews to an empty array
-  //   return {previews: []}
-  // }
 
   getPresentationList() {
     console.log(this, 'from the outside');
@@ -38,27 +31,13 @@ class Presenter extends Component {
     });
   }
 
-  // grabDocs() {
-  //   // get presentations
-  //   return this.getPresentationList((result) => {
-  //     // extract important data from presentation objects that we get back from google drive API
-  //     return result.items.map((doc) => {
-  //       return {
-  //         link: doc.embedLink.replace('link', 'embed'),
-  //         title: doc.title,
-  //         thumbnail: doc.thumbnailLink,
-  //         gid: doc.id
-  //       }
-  //     });
-  //   });
-  // }
-
   renderPreviews() {
-    // iterate over previews and create a new Preview for each item in the array
-    // Make call to database instead of this.state.previews
+    let setPres = this.props.setPresentation
+
     return this.props.previews.map((preview) => {
       return (
         <Preview
+          setPresentation={setPres}
           key={preview.gid}
           data={preview} />
       )

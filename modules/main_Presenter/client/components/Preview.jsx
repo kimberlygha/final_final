@@ -5,15 +5,10 @@
 import React, { Component } from 'react';
 
 export default class Preview extends Component {
-  propTypes: {
-    // require data proto --> contains all link info
-    data: React.PropTypes.object.isRequired
+  constructor() {
+    super();
+    this.presentation = this.presentation.bind(this);
   }
-
-  // set state of svgs to empty array
-  // getInitialState() {
-  //   return {svgs: []}
-  // }
 
   presentation() {
     // declare identifier variables in function scope
@@ -22,31 +17,20 @@ export default class Preview extends Component {
     let gid = this.props.data.gid;
     let react = this;
     // opens a query and waits for a change to occur
-    Presentations.find({gid: gid.toString()}).observe({
-      added: function (newDoc) {
-        console.log('we have a change', newDoc);
-        react.setState({svgs: newDoc.svgs});
-
-      }
-    });
     // call method to create a presentation
     Meteor.call('createPresentation', link, user, gid, function (err, result) {
       if(err){
         console.error(err);
       };
+      react.props.setPresentation(user);
+      // reRoute to the projector view! 
     })
-  }
-
-  makeSlides() {
-    if(this.state.svgs.length > 0){
-      return <Slides svgs={this.state.svgs} />
-    }
   }
 
   render() {
     return (
       <li>
-        <div>
+        <div onClick={this.presentation}>
           <img src={this.props.data.thumbnail}/>
           <h1>{this.props.data.title}</h1>
         </div>
