@@ -6,7 +6,6 @@ import { Link } from 'react-router'
 import Login from 'sub_Login/client'
 import * as homeActions from 'dux/HomeReductions'
 // Use getMeteorData() instead
-import Presentations from 'db/Presentations'
 import Codes from 'db/Codes'
 import Select from 'main_Select/client'
 
@@ -37,9 +36,8 @@ let Home = React.createClass({
 
     let code = event.target[0].value;
     // Validate code
-    let pres = Codes.findOne({ _id: code })
-    console.log(pres)
-    if (pres) {
+    let show = Codes.findOne({ _id: code })
+    if (show) {
       this.props.codeValidation(false);
       this.props.submitCode(pres._id);
     } else {
